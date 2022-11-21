@@ -1,23 +1,28 @@
-FROM archlinux:base
+FROM ubuntu:jammy
 
-LABEL maintainer="fmacrae.dev@gmail.com"
+LABEL maintainer="dmitry@kernelgen.org"
 
-RUN pacman -Sy --noconfirm archlinux-keyring
-RUN pacman -Syyu --noconfirm
-RUN pacman -S --noconfirm \
-    i3status \
-    i3-wm \
-    git \
-    net-tools \
-    python3 \
-    rxvt-unicode \
-    supervisor \
-    ttf-dejavu \
-    x11vnc \
-    xorg-server \
-    xorg-apps \
-    xorg-server-xvfb \
-    xorg-xinit
+ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL C.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
+RUN apt-get update && \
+    apt-get -y --no-install-recommends install \
+        i3status \
+        i3-wm \
+        git \
+        net-tools \
+        python3 \
+        rxvt-unicode \
+        supervisor \
+        fonts-dejavu \
+        x11vnc \
+        xvfb \
+        xserver-xorg \
+        xinit \
+        ca-certificates && \
+    apt-get clean
 
 # noVNC setup
 WORKDIR /usr/share/
@@ -35,3 +40,4 @@ RUN useradd -m user
 WORKDIR /home/user
 
 CMD ["/usr/bin/supervisord"]
+
