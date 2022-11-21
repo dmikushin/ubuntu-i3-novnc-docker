@@ -27,6 +27,7 @@ RUN apt-get update && \
 # noVNC setup
 WORKDIR /usr/share/
 RUN git clone https://github.com/kanaka/noVNC.git
+RUN ln -s /usr/share/noVNC/vnc_lite.html /usr/share/noVNC/index.html
 WORKDIR /usr/share/noVNC/utils/
 RUN git clone https://github.com/kanaka/websockify
 
